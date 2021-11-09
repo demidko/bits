@@ -22,7 +22,7 @@ class Examples {
 
   public byte[] writeBitsExample() {
     int[] sourceNumbers = new int[]{-7, 26, 0, 5435, -4, 1, 476, 0, 43, 16};
-    BitWriter bitWriter = new BitWriter(sourceNumbers.length * 8);
+    BitWriter bitWriter = new BitWriter(sourceNumbers.length * 32);
     for (int n : sourceNumbers) {
       bitWriter.write(n, 32);
     }
