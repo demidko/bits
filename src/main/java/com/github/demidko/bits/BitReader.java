@@ -9,7 +9,7 @@ import java.util.BitSet;
 /**
  * Класс предназначен для побитового чтения примитивов из последовательностей бит.
  */
-class BitReader {
+public class BitReader {
 
   private final BitSet bs;
   private int pos = -1;
