@@ -104,7 +104,7 @@ public class BitWriter {
     while (bytesReader.hasUnreadBits()) {
       outputStream.write(bytesReader.readByte());
     }
-    return outputStream.toString();
+    return new String(outputStream.toByteArray(), UTF_8);
   }
 
   /**
