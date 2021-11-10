@@ -3,6 +3,7 @@ package com.github.demidko.bits;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.BitSet.valueOf;
 
+import java.io.ByteArrayInputStream;
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
 import java.util.BitSet;
@@ -39,6 +40,10 @@ public class BitReader {
 
   public BitReader(String s) {
     bs = valueOf(s.getBytes(UTF_8));
+  }
+
+  public BitReader(ByteArrayInputStream b) {
+    bs = valueOf(b.readAllBytes());
   }
 
   public BitReader(ByteBuffer b) {
