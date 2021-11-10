@@ -162,7 +162,7 @@ public class BitReader {
   /**
    * @return количество всех бит, прочитанных и не прочитанных
    */
-  public int getSize() {
+  public int size() {
     return bs.size();
   }
 
@@ -177,6 +177,6 @@ public class BitReader {
    * @return есть ли еще непрочитанные биты?
    */
   public boolean hasUnreadBits() {
-    return (pos + 1) < bs.size();
+    return getUnreadSize() > 0;
   }
 }

@@ -15,7 +15,7 @@ class BitWriterTest {
       bitWriter.writeInt(n);
     }
     BitReader bitReader = bitWriter.toBitReader();
-    assertThat(bitReader.getSize(), equalTo(bitWriter.getSize()));
+    assertThat(bitReader.size(), equalTo(bitWriter.size()));
     for (int originalNumber : sourceNumbers) {
       int readiedNumber = bitReader.readInt();
       assertThat(readiedNumber, equalTo(originalNumber));

@@ -180,7 +180,7 @@ public class BitWriter {
   /**
    * @return количество всех бит, уже записанных и доступных для записи
    */
-  public int getSize() {
+  public int size() {
     return bs.size();
   }
 
@@ -202,6 +202,6 @@ public class BitWriter {
    * @return есть ли еще свободные биты для записи?
    */
   public boolean hasFreeBits() {
-    return (pos + 1) < bs.size();
+    return getFreeSize() > 0;
   }
 }
