@@ -38,10 +38,6 @@ public class BitReader {
     bs = b;
   }
 
-  public BitReader(ByteArrayInputStream b) {
-    bs = valueOf(b.readAllBytes());
-  }
-
   public BitReader(String s) {
     bs = valueOf(s.getBytes(UTF_8));
   }
