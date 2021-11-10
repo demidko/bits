@@ -7,19 +7,33 @@ import java.nio.LongBuffer;
 import java.util.BitSet;
 
 /**
- * Класс предназначен для побитового чтения примитивов из последовательностей бит.
+ * Класс предназначен для побитного чтения.
  */
 public class BitReader {
 
   private final BitSet bs;
   private int pos = -1;
 
+  /**
+   * @param n набор блоков для чтения по 64 бита каждый
+   */
   public BitReader(long... n) {
     bs = valueOf(n);
   }
 
+  /**
+   * @param b набор блоков для чтения по 8 бит каждый
+   */
   public BitReader(byte... b) {
     bs = valueOf(b);
+  }
+
+  public BitReader(BitWriter w) {
+    bs = w.toBitSet();
+  }
+
+  public BitReader(BitSet b) {
+    bs = b;
   }
 
   public BitReader(ByteBuffer b) {
@@ -42,76 +56,87 @@ public class BitReader {
     return bs.get(++pos);
   }
 
+  public BitWriter readBits(int size) {
+    BitWriter w = new BitWriter(size);
+    for (int i = 0; i < size; ++i) {
+      w.writeBit(readBit());
+    }
+    return w;
+  }
+
   /**
    * Метод читает следующие N бит по порядку
    *
-   * @param size количество бит, не больше 64ех
-   * @return биты сохраненные в длинное целое число (не вместившееся будут отброшены)
+   * @param size количество бит
+   * @return биты сохраненные в виде unicode строки (каждый char как блок по 16 бит)
    */
-  public long readLong(int size) {
-    BitWriter w = new BitWriter();
-    for (int i = 0; i < size; ++i) {
-      w.write(readBit());
-    }
-    return w.toLong();
+  public String readString(int size) {
+    return readBits(size).toString();
+  }
+
+  /**
+   * Метод читает следующие N бит по порядку
+   *
+   * @param size количество бит
+   * @return биты сохраненные в виде {@link BitSet}
+   */
+  public BitSet readBitSet(int size) {
+    return readBits(size).toBitSet();
+  }
+
+  /**
+   * Метод читает следующие N бит по порядку
+   *
+   * @param size количество бит
+   * @return биты сохраненные в набор блоков байт по 64 бита каждый
+   */
+  public long[] readLongArray(int size) {
+    return readBits(size).toLongArray();
+  }
+
+  /**
+   * Метод читает следующие N бит по порядку
+   *
+   * @param size количество бит
+   * @return биты сохраненные в набор блоков байт по 8 бит каждый
+   */
+  public byte[] readByteArray(int size) {
+    return readBits(size).toByteArray();
   }
 
   /**
    * @return прочитать следующее длинное целое (следующие 64 бита целиком)
    */
   public long readLong() {
-    return readLong(64);
-  }
-
-  /**
-   * Метод читает следующие N бит по порядку
-   *
-   * @param size количество бит, не больше 32ух
-   * @return биты сохраненные в целое число (не вместившиеся будут отброшены)
-   */
-  public int readInt(int size) {
-    return (int) readLong(size);
+    return readBits(64).toLong();
   }
 
   /**
    * Прочитать следующий примитив int (следующие 32 бита целиком)
    */
   public int readInt() {
-    return readInt(32);
-  }
-
-  /**
-   * Метод читает следующие N бит по порядку
-   *
-   * @param size количество бит, не больше 16
-   * @return биты сохраненные в короткое целое число (не вместившиеся будут отброшены)
-   */
-  public short readShort(int size) {
-    return (short) readLong(size);
+    return readBits(32).toInt();
   }
 
   /**
    * Прочитать следующий примитив short (следующие 16 бит целиком)
    */
   public short readShort() {
-    return readShort(16);
+    return readBits(16).toShort();
   }
 
   /**
-   * Метод читает следующие N бит по порядку
-   *
-   * @param size количество бит, не больше 8
-   * @return биты сохраненные в байт (не вместившееся будут отброшены)
+   * Прочитать следующий примитив short (следующие 16 бит целиком)
    */
-  public byte readByte(int size) {
-    return (byte) readLong(size);
+  public char readChar() {
+    return readBits(16).toChar();
   }
 
   /**
    * Прочитать следующий примитив byte (следующие 8 бит целиком)
    */
   public byte readByte() {
-    return readByte(8);
+    return readBits(8).toByte();
   }
 
   /**
@@ -124,7 +149,7 @@ public class BitReader {
   /**
    * @return количество всех бит, прочитанных и не прочитанных
    */
-  public int getTotalSize() {
+  public int getSize() {
     return bs.size();
   }
 
@@ -133,5 +158,12 @@ public class BitReader {
    */
   public int getUnreadSize() {
     return bs.size() - pos - 1;
+  }
+
+  /**
+   * @return есть ли еще непрочитанные биты?
+   */
+  public boolean hasUnreadBits() {
+    return (pos + 1) < bs.size();
   }
 }
