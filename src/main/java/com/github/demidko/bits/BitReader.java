@@ -66,9 +66,12 @@ public class BitReader {
     return bs.get(++pos);
   }
 
+  /**
+   * @return запрошенное количество бит (может быть меньше, если достаточно битов не осталось)
+   */
   public BitWriter readBits(int size) {
     BitWriter w = new BitWriter(size);
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; (i < size) && hasUnreadBits(); ++i) {
       w.writeBit(readBit());
     }
     return w;
