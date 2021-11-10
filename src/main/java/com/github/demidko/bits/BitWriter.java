@@ -1,7 +1,5 @@
 package com.github.demidko.bits;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import java.io.ByteArrayOutputStream;
 import java.util.BitSet;
 
@@ -165,7 +163,7 @@ public class BitWriter {
    * Записать строку побитно целиком в UTF-8
    */
   public void writeString(String s) {
-    for (byte c : s.getBytes(UTF_8)) {
+    for (byte c : s.getBytes()) {
       writeByte(c);
     }
   }
