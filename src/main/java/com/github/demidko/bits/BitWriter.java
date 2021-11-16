@@ -109,7 +109,8 @@ public class BitWriter {
    * @return 8 бит, результат записи в byte (не вместившиеся биты будут отброшены)
    */
   public byte toByte() {
-    return bs.toByteArray()[0];
+    byte[] arr = bs.toByteArray();
+    return arr.length == 0 ? 0 : arr[0];
   }
 
   /**
