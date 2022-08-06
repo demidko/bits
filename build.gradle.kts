@@ -1,5 +1,3 @@
-import org.gradle.api.JavaVersion.VERSION_11
-
 repositories {
   mavenCentral()
   maven("https://jitpack.io")

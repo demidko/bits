@@ -116,8 +116,9 @@ public class BitWriter {
   /**
    * Метод записывает следующий по порядку бит
    */
-  public void writeBit(boolean bit) {
+  public BitWriter writeBit(boolean bit) {
     bs.set(++pos, bit);
+    return this;
   }
 
   /**
@@ -126,54 +127,56 @@ public class BitWriter {
    * @param r   набор бит для записи
    * @param len количество первых прочитанных бит из набора, которые будут записаны
    */
-  public void writeBits(BitReader r, int len) {
+  public BitWriter writeBits(BitReader r, int len) {
     for (int i = 0; i < len; ++i) {
       writeBit(r.readBit());
     }
+    return this;
   }
 
   /**
    * Записать long побитно целиком (понадобится 64 бита)
    */
-  public void writeLong(long l) {
-    writeBits(new BitReader(l), 64);
+  public BitWriter writeLong(long l) {
+    return writeBits(new BitReader(l), 64);
   }
 
   /**
    * Записать int побитно целиком (понадобится 32 бита)
    */
-  public void writeInt(int i) {
-    writeBits(new BitReader(i), 32);
+  public BitWriter writeInt(int i) {
+    return writeBits(new BitReader(i), 32);
   }
 
   /**
    * Записать short побитно целиком (понадобится 16 бит)
    */
-  public void writeShort(short s) {
-    writeBits(new BitReader(s), 16);
+  public BitWriter writeShort(short s) {
+    return writeBits(new BitReader(s), 16);
   }
 
   /**
    * Записать char побитно целиком (понадобится 16 бит)
    */
-  public void writeChar(char s) {
-    writeBits(new BitReader(s), 16);
+  public BitWriter writeChar(char s) {
+    return writeBits(new BitReader(s), 16);
   }
 
   /**
    * Записать строку побитно целиком в UTF-8
    */
-  public void writeString(String s) {
+  public BitWriter writeString(String s) {
     for (byte c : s.getBytes()) {
       writeByte(c);
     }
+    return this;
   }
 
   /**
    * Записать byte побитно целиком (понадобится 8 бит)
    */
-  public void writeByte(byte b) {
-    writeBits(new BitReader(b), 8);
+  public BitWriter writeByte(byte b) {
+    return writeBits(new BitReader(b), 8);
   }
 
   /**
